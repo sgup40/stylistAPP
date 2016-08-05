@@ -1,4 +1,4 @@
-package controllers;
+package styleapp.model;
 
 public class Greeting {
 
