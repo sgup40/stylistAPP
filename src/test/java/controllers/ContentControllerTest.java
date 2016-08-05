@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package hello;
+package controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -29,8 +29,11 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import controllers.Application;
 
 /**
  * @author Greg Turnquist
@@ -38,7 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-public class GreetingControllerTests {
+public class ContentControllerTest {
 
 	@Autowired
 	private WebApplicationContext ctx;
@@ -51,21 +54,21 @@ public class GreetingControllerTests {
 	}
 
 	@Test
-	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
+	public void setParamGreetingShouldReturnDefaultMessage() throws Exception {
 
-		this.mockMvc.perform(get("/greeting"))
+		this.mockMvc.perform(get("/content").param("userID", "12345"))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, World!"));
+				.andExpect(MockMvcResultMatchers.content().string("test case method"));
 	}
 
 	@Test
-	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
+	public void defaultParamGreetingShouldReturnTailoredMessage() throws Exception {
 
-		this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
+		this.mockMvc.perform(get("/content").param("userID", "4573"))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+				.andExpect(MockMvcResultMatchers.content().string("Stylist Content"));
 	}
 
 }

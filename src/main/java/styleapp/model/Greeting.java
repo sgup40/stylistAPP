@@ -1,4 +1,4 @@
-package hello;
+package styleapp.model;
 
 public class Greeting {
 
